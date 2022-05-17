@@ -1,5 +1,4 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using MeuDinheiro.Bussiness.Core.Models;
 using MeuDinheiro.Bussiness.Core.Notifications;

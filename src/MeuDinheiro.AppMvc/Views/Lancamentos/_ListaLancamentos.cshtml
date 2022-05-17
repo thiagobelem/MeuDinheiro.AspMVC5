@@ -50,7 +50,7 @@
                             }
                             @if (this.PermitirExibicao("Lancamento", "D"))
                             {
-                                <a href="javascript:;" class="btn btn-default btn-xs mb-0 btnExcluir" data-url="@Url.Action("Excluir", "Lancamentos", new { id = item.Id })" data-value="@item.Id" data-description="@item.Descricao">
+                                <a href="javascript:;" class="btn btn-default btn-xs mb-0 btnExcluir" data-url="@Url.Action("Excluir", "Lancamentos", new { id = item.Id })" data-value="@item.Id" data-title="Excluir Lançamento?" data-text="Deseja excluir @item.Descricao?">
                                     Excluir
                                 </a>
                             }

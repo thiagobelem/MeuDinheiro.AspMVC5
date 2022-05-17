@@ -72,7 +72,7 @@ namespace MeuDinheiro.AppMvc.Controllers
 
             if (!ValidarOperacao()) return RetornarErros();
 
-            return Json(new { status = "success" });
+            return Json(new { status = "success", message = "Lançamento cadastrado com sucesso!" });
         }
 
 
@@ -120,7 +120,7 @@ namespace MeuDinheiro.AppMvc.Controllers
 
             if (!ValidarOperacao()) return RetornarErros();
 
-            return Json(new { status = "success" });
+            return Json(new { status = "success", message = "Lançamento atualizado com sucesso!" });
         }
 
 
@@ -142,7 +142,7 @@ namespace MeuDinheiro.AppMvc.Controllers
 
             if (!ValidarOperacao()) return RetornarErros();
 
-            return Json(new { status = "success" });
+            return Json(new { status = "success", message = "Lançamento excluído com sucesso!" });
         }
 
         private async Task<LancamentoViewModel> PopularCategorias(LancamentoViewModel lancamento)

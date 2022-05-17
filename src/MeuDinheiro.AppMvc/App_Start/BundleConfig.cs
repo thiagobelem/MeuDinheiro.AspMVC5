@@ -34,6 +34,9 @@ namespace MeuDinheiro.AppMvc
             bundles.Add(new ScriptBundle("~/Content/scripts/mask_js").Include(
                "~/Content/scripts/jquery.mask.min.js"));
 
+            bundles.Add(new ScriptBundle("~/Content/scripts/app").Include(
+               "~/Content/scripts/app.js"));
+
             bundles.Add(new ScriptBundle("~/Content/scripts/chart").Include(
               "~/Content/scripts/chartjs.min.js",
               "~/Content/scripts/graficos-dashboard.js"));

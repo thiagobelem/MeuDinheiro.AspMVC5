@@ -217,9 +217,6 @@
     <Compile Include="ViewModels\LancamentoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="500.html" />
-    <Content Include="403.html" />
-    <Content Include="404.html" />
     <Content Include="Content\css\argon-dashboard.min.css" />
     <Content Include="Content\css\nucleo-icons.css" />
     <Content Include="Content\css\nucleo-svg.css" />
@@ -237,6 +234,7 @@
     <Content Include="Content\scripts\jquery.min.js" />
     <Content Include="Content\scripts\perfect-scrollbar.min.js" />
     <Content Include="Content\scripts\popper.min.js" />
+    <Content Include="Content\scripts\app.js" />
     <Content Include="Content\scripts\sweetalert.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

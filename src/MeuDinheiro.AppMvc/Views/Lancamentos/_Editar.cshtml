@@ -7,7 +7,7 @@
     </button>
 </div>
 
-@using (Ajax.BeginForm("Editar", "Lancamentos", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onChangeSucess(data)", OnFailure = "onChangeFailure(data)" }, new { role = "form", id = "FormEditarLancamento" }))
+@using (Ajax.BeginForm("Editar", "Lancamentos", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onChangeSucess(data)", OnFailure = "onChangeFailure(data)" }, new { role = "form", id = "Form" }))
 {
     <div class="modal-body">
 
@@ -25,19 +25,13 @@
 }
 
 <script type="text/javascript">
-
     $(document).ready(function () {
 
-        $.validator.unobtrusive.parse('#FormEditarLancamento');
-        $("#btnSubmit").click(function () {
-            if (!$("#FormEditarLancamento").valid()) {
-                return false;
-            }
-        });
-
+        validarForm();
 
         if (document.querySelector(".datepicker")) {
             flatpickr(".datepicker", {
+                mode: "single",
                 altInput: true,
                 altFormat: "j/F/Y",
                 dateFormat: "d/m/Y"
@@ -46,59 +40,6 @@
 
         $("#Valor").mask('###0,00', { reverse: true });
     });
-
-    function onChangeSucess(data) {
-        if (data.status === "success") {
-            $("#lancamentoModal").modal('hide');
-            carregarListaLancamentos();
-            swal({
-                title: "Feito!",
-                text: "Lancamento atualizado com sucesso!",
-                type: "success",
-                confirmButtonColor: "#0A5F55",
-                allowEscapeKey: "true",
-                closeOnConfirm: true
-            });
-        }
-        else {
-            if (data.status === "failure") {
-                var listerrors = "";
-                if (Array.isArray(data.formErrors)) {
-                    data.formErrors.forEach(function (item) {
-                        item.errors.forEach(function (item2) {
-                            listerrors += "* " + item2 + "\n";
-                        })
-                    })
-                }
-                else {
-                    listerrors = data.formErrors;
-                }
-                swal({
-                    title: "Erro !",
-                    text: listerrors,
-                    type: "error",
-                    confirmButtonColor: "#F47920",
-                    allowEscapeKey: "false"
-                });
-                $("#btnSubmit").removeAttr("disabled", "disabled");
-            }
-        }
-    }
-
-    function onChangeFailure(data) {
-        var listerrors = "";
-        $(data.formErrors).each(function (index, value) {
-            listerrors += value.errors + "\n";
-        });
-        listerrors = listerrors.replace(",", "\n");
-        swal({
-            title: "Erro !",
-            text: listerrors,
-            type: "error",
-            confirmButtonColor: "#F47920",
-            allowEscapeKey: "false"
-        });
-    }
 </script>
 
 

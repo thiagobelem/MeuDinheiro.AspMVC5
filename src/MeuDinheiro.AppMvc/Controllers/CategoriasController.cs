@@ -65,7 +65,7 @@ namespace MeuDinheiro.AppMvc.Controllers
 
             if (!ValidarOperacao()) return RetornarErros();
 
-            return Json(new { status = "success" });  
+            return Json(new { status = "success", message="Categoria cadastrada com sucesso!" });  
         }
 
 
@@ -101,7 +101,7 @@ namespace MeuDinheiro.AppMvc.Controllers
         {
             if (id != model.Id)
             {
-                AdicionarErro("Lançamento inexistente");
+                AdicionarErro("Categoria inexistente");
                 return RetornarErros();
             }
 
@@ -111,7 +111,7 @@ namespace MeuDinheiro.AppMvc.Controllers
 
             if (!ValidarOperacao()) return RetornarErros();
 
-            return Json(new { status = "success" });
+            return Json(new { status = "success", message = "Categoria atualizada com sucesso!" });
         }
 
 
@@ -125,7 +125,7 @@ namespace MeuDinheiro.AppMvc.Controllers
 
             if (categoria is null)
             {
-                AdicionarErro("Lançamento inexistente");
+                AdicionarErro("Categoria inexistente");
                 return RetornarErros();
             }
 
@@ -133,7 +133,7 @@ namespace MeuDinheiro.AppMvc.Controllers
 
             if (!ValidarOperacao()) return RetornarErros();
 
-            return Json(new { status = "success" });
+            return Json(new { status = "success", message = "Categoria desativada com sucesso!" });
         }
 
         protected override void Dispose(bool disposing)

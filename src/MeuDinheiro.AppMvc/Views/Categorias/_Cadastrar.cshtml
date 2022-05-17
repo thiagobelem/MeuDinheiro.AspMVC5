@@ -7,7 +7,7 @@
     </button>
 </div>
 
-@using (Ajax.BeginForm("Cadastrar", "Categorias", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onChangeSucess(data)", OnFailure = "onChangeFailure(data)" }, new { role = "form", id = "FormCadastrarCategoria" }))
+@using (Ajax.BeginForm("Cadastrar", "Categorias", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onChangeSucess(data)", OnFailure = "onChangeFailure(data)" }, new { role = "form", id = "Form" }))
 {
     <div class="modal-body">
 
@@ -25,66 +25,7 @@
 }
 
 <script type="text/javascript">
-
     $(document).ready(function () {
-        $.validator.unobtrusive.parse('#FormCadastrarCategoria');
-        $("#btnSubmit").click(function () {
-            if (!$("#FormCadastrarCategoria").valid()) {
-                return false;
-            }
-        });
+        validarForm();
     });
-
-    function onChangeSucess(data) {
-        if (data.status === "success") {
-            $("#categoriaModal").modal('hide');
-            carregarListaCategorias();
-            swal({
-                title: "Feito!",
-                text: "Categoria cadastrada com sucesso!",
-                type: "success",
-                confirmButtonColor: "#0A5F55",
-                allowEscapeKey: "true",
-                closeOnConfirm: true
-            });
-        }
-        else {
-            if (data.status === "failure") {
-                var listerrors = "";
-                if (Array.isArray(data.formErrors)) {
-                    data.formErrors.forEach(function (item) {
-                        item.errors.forEach(function (item2) {
-                            listerrors += "* " + item2 + "\n";
-                        })
-                    })
-                }
-                else {
-                    listerrors = data.formErrors;
-                }
-                swal({
-                    title: "Erro !",
-                    text: listerrors,
-                    type: "error",
-                    confirmButtonColor: "#F47920",
-                    allowEscapeKey: "false"
-                });
-                $("#btnSubmit").removeAttr("disabled", "disabled");
-            }
-        }
-    }
-
-    function onChangeFailure(data) {
-        var listerrors = "";
-        $(data.formErrors).each(function (index, value) {
-            listerrors += value.errors + "\n";
-        });
-        listerrors = listerrors.replace(",", "\n");
-        swal({
-            title: "Erro !",
-            text: listerrors,
-            type: "error",
-            confirmButtonColor: "#F47920",
-            allowEscapeKey: "false"
-        });
-    }
 </script>

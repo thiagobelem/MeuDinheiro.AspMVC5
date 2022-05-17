@@ -12,16 +12,16 @@
         <div class="card mb-4">
             <div class="card-header pb-0">
                 <div class="row">
-                    <div class="col-9 col-sm-9 col-md-9 col-lg-10 col-xl-10">
+                    <div class="col-7 col-sm-9 col-md-9 col-lg-10 col-xl-10">
                         <h5 class="text-secondary">Lançamentos</h5>
                     </div>
-                    <div class="col-3 col-sm-3 col-md-3 col-lg-2 col-xl-2 text-end">
+                    <div class="col-5 col-sm-3 col-md-3 col-lg-2 col-xl-2 text-end">
                         @{ if (this.PermitirExibicao("Lancamento", "C"))
                             {<a id="btnCadastrar" class="btn btn-success" href="@Url.Action("Cadastrar", "Lancamentos")">Cadastrar</a>}}
                     </div>
                 </div>
             </div>
-            <div id="listaLancamentosTable" data-url="@Url.Action("ListarLancamentos", "Lancamentos")" class="card-body">
+            <div id="listaTable" data-url="@Url.Action("ListarLancamentos", "Lancamentos")" class="card-body">
                 <div class="text-center">
                     <div class="spinner-border spinner-border-lg text-primary" style="width: 3rem; height: 3rem;" role="status">
                         <span class="visually-hidden">Carregando...</span>
@@ -34,7 +34,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="lancamentoModal" tabindex="-1" role="dialog" aria-labelledby="lancamentoModalLabel" aria-hidden="true">
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="modal-content">
 
@@ -42,142 +42,17 @@
     </div>
 </div>
 
+<input type="hidden" id="token" name="token" value="@Html.AntiForgeryTokenValue()">
+
 @section scripts
 {
 
 @Scripts.Render("~/Content/scripts/datepicker")
 @Scripts.Render("~/Content/scripts/mask_js")
-
+@Scripts.Render("~/Content/scripts/app")
 <script type="text/javascript">
-
     $(document).ready(function () {
-
-        carregarListaLancamentos();
-
-        $("#btnCadastrar").on("click", function (e) {
-            $(this).addClass("disabled");
-            $("#modal-content").load(this.href,
-                function () {
-                   $("#lancamentoModal").modal("show");
-                });
-            return false;
-        });
-
-        $("#listaLancamentosTable").on('click', ".btnDetalhes", function (e) {
-            $(this).addClass("disabled");
-            $("#modal-content").load($(this).data("url"), function (responseTxt, statusTxt, xhr) {
-                if (statusTxt == "success") {
-                    $("#lancamentoModal").modal("show");
-                }
-                if (statusTxt == "error") {
-                    swal({
-                        title: xhr.status,
-                        text: xhr.statusText,
-                        type: "error",
-                        confirmButtonColor: "#f47920",
-                        allowEscapeKey: "true"
-                    });
-                }
-            });
-        });
-
-
-        $("#listaLancamentosTable").on('click', ".btnEditar", function () {
-            $(this).addClass("disabled");
-            $("#modal-content").load($(this).data("url"), function (responseTxt, statusTxt, xhr) {
-                if (statusTxt == "success") {
-                    $("#lancamentoModal").modal("show");
-                }
-                if (statusTxt == "error") {
-                    swal({
-                        title: xhr.status,
-                        text: xhr.statusText,
-                        type: "error",
-                        confirmButtonColor: "#f47920",
-                        allowEscapeKey: "true"
-                    });
-                }
-            });
-        });
-
-
-        $("#listaLancamentosTable").on('click', ".btnExcluir", function () {
-            $(this).addClass("disabled");
-            var ID = $(this).data("value");
-            var URL = $(this).data("url");
-            var DESC = $(this).data("description");
-                swal({
-                    title: "Excluir Lançamento?",
-                    text: "Deseja excluir o Lançamento " + DESC + "?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#fb6340",
-                    confirmButtonText: "Sim",
-                    cancelButtonText: "Não",
-                    cancelButtonColor: "#f4f5f7",
-                    animation: "slide-from-top",
-                    closeOnConfirm: false
-                },
-                function () {
-                    $.post(
-                        {
-                            url: URL,
-                            data: { id: ID, @Html.AntiForgeryTokenForAjaxPost() },
-                            success: function (data, status, xhr) {
-                                if (data.status === "success") {
-                                    carregarListaLancamentos();
-                                    swal({
-                                        title: "Lançamento Excluído",
-                                        text: "O Lançamento " + DESC + " foi excluído",
-                                        type: "success",
-                                        confirmButtonColor: "#00995d",
-                                        allowEscapeKey: "true"
-                                    });
-                                }
-                                else {
-                                    if (data.status === "failure") {
-                                        var listerrors = "";
-                                        if (Array.isArray(data.formErrors)) {
-                                            data.formErrors.forEach(function (item) {
-                                                item.errors.forEach(function (item2) {
-                                                    listerrors += "* " + item2 + "\n";
-                                                })
-                                            })
-                                        }
-                                        else {
-                                            listerrors = data.formErrors;
-                                        }
-                                        swal({
-                                            title: "Erro !",
-                                            text: listerrors,
-                                            type: "error",
-                                            confirmButtonColor: "#F47920",
-                                            allowEscapeKey: "false"
-                                        });
-                                    }
-                            }
-                            },
-                            error: function (error) {
-                                console.log(error);
-                                alert(error)
-                            }
-                        }
-                        );
-                });
-        });
+        carregarLista();
     });
-
-    function carregarListaLancamentos() {
-        var tabela = $("#listaLancamentosTable");
-        $(tabela).load(tabela.data("url"));
-    }
-
-    $("#lancamentoModal").on('hide.bs.modal', function () {
-        ativarBotoes();
-    });
-
-    function ativarBotoes() {
-        $("a").removeClass("disabled");
-    }
 </script>
 }
