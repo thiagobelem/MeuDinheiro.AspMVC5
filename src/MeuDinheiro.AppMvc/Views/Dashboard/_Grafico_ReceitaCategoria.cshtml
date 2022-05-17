@@ -1,0 +1,9 @@
+﻿@model MeuDinheiro.AppMvc.ViewModels.DashboardViewModel
+
+<canvas id="receitaCategoria" class="chart-canvas" height="300"></canvas>
+
+<script>
+    graficoReceitaCategoria([@Html.Raw(Model.Label)], [@Html.Raw(Model.Data)]);
+</script>
+
+

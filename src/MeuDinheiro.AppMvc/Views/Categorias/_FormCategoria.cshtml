@@ -1,0 +1,12 @@
+﻿@model MeuDinheiro.AppMvc.ViewModels.CategoriaViewModel
+
+<div class="form-group mb-3">
+    @Html.LabelFor(m => m.Descricao)
+    @Html.TextBoxFor(m => m.Descricao, new { @class = "form-control", @placeholder = "Descrição" })
+    @Html.ValidationMessageFor(m => m.Descricao, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check form-switch">
+    @Html.CheckBoxFor(m => m.Ativo, new { @class = "form-check-input" })
+    @Html.LabelFor(m => m.Ativo, new { @class = "form-check-label" })
+</div>

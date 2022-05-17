@@ -1,0 +1,8 @@
+﻿@model MeuDinheiro.AppMvc.ViewModels.DashboardViewModel
+
+<canvas id="despesaMes" class="chart-canvas" height="300"></canvas>
+
+<script>
+    graficoDespesaMes([@Html.Raw(Model.Label)], [@Html.Raw(Model.Data)]);
+</script>
+

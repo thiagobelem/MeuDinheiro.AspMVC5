@@ -1,0 +1,62 @@
+﻿<!--
+=========================================================
+* Argon Dashboard 2 - v2.0.2
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/images/apple-icon-76x76.png">
+    <link rel="icon" type="image/png" href="~/Content/images/favicon.png">
+    <title>
+        @ViewBag.Title - MeuDinheiro
+    </title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    @Styles.Render("~/Content/css/base")
+    @RenderSection("css", false)
+</head>
+
+<body style="background-color: #f6f9fc">
+    <main class="main-content  mt-0">
+        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg bg-primary">
+            <span class="mask bg-gradient-dark opacity-6"></span>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 text-center mx-auto">
+                        <a href="@Url.Action("Inicio","Dashboard")"> <h2 class="display-6 text-secondary mt-5"><span>Meu<strong>Dinheiro</strong></span></h2></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row mt-lg-n12 mt-md-n11 mt-n10 justify-content-center">
+                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                    <div class="card z-index-0">
+                        <div class="card-header text-center pt-4">
+                            <h5><strong>@ViewBag.Title</strong></h5>
+                        </div>
+                        <div class="card-body">
+                             @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    @Scripts.Render("~/Content/scripts/base")
+    @Scripts.Render("~/Content/scripts/js_val")
+    @RenderSection("scripts", false)
+</body>
+</html>

@@ -1,0 +1,104 @@
+﻿@model MeuDinheiro.AppMvc.ViewModels.LancamentoViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Editar Lançamento</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+@using (Ajax.BeginForm("Editar", "Lancamentos", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onChangeSucess(data)", OnFailure = "onChangeFailure(data)" }, new { role = "form", id = "FormEditarLancamento" }))
+{
+    <div class="modal-body">
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger text-center" })
+
+        @Html.Partial("_FormLancamento")
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" id="btnSubmit" class="btn btn-success">Salvar</button>
+    </div>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $.validator.unobtrusive.parse('#FormEditarLancamento');
+        $("#btnSubmit").click(function () {
+            if (!$("#FormEditarLancamento").valid()) {
+                return false;
+            }
+        });
+
+
+        if (document.querySelector(".datepicker")) {
+            flatpickr(".datepicker", {
+                altInput: true,
+                altFormat: "j/F/Y",
+                dateFormat: "d/m/Y"
+            });
+        }
+
+        $("#Valor").mask('###0,00', { reverse: true });
+    });
+
+    function onChangeSucess(data) {
+        if (data.status === "success") {
+            $("#lancamentoModal").modal('hide');
+            carregarListaLancamentos();
+            swal({
+                title: "Feito!",
+                text: "Lancamento atualizado com sucesso!",
+                type: "success",
+                confirmButtonColor: "#0A5F55",
+                allowEscapeKey: "true",
+                closeOnConfirm: true
+            });
+        }
+        else {
+            if (data.status === "failure") {
+                var listerrors = "";
+                if (Array.isArray(data.formErrors)) {
+                    data.formErrors.forEach(function (item) {
+                        item.errors.forEach(function (item2) {
+                            listerrors += "* " + item2 + "\n";
+                        })
+                    })
+                }
+                else {
+                    listerrors = data.formErrors;
+                }
+                swal({
+                    title: "Erro !",
+                    text: listerrors,
+                    type: "error",
+                    confirmButtonColor: "#F47920",
+                    allowEscapeKey: "false"
+                });
+                $("#btnSubmit").removeAttr("disabled", "disabled");
+            }
+        }
+    }
+
+    function onChangeFailure(data) {
+        var listerrors = "";
+        $(data.formErrors).each(function (index, value) {
+            listerrors += value.errors + "\n";
+        });
+        listerrors = listerrors.replace(",", "\n");
+        swal({
+            title: "Erro !",
+            text: listerrors,
+            type: "error",
+            confirmButtonColor: "#F47920",
+            allowEscapeKey: "false"
+        });
+    }
+</script>
+
+

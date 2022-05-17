@@ -1,0 +1,65 @@
+﻿@using MeuDinheiro.AppMvc.Extensions
+@using MeuDinheiro.Bussiness.Models.Lancamentos
+@model IEnumerable<MeuDinheiro.AppMvc.ViewModels.LancamentoViewModel>
+
+@if (Model.Count() > 0)
+{
+    <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0 table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tipo</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Descrição</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Data</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Valor</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Categoria</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-sm bg-gradient-@(item.Tipo == TipoLancamento.Receita? "success":"danger")">@(item.Tipo == TipoLancamento.Receita? "Receita":"Despesa")</span>
+                        </td>
+                        <td>
+                            <span class="text-default font-weight-bold">@item.Descricao</span>
+                        </td>
+                        <td>
+                            <span class="text-default font-weight-bold">@item.Data.ToString("dd/MM/yyyy")</span>
+                        </td>
+                        <td>
+                            <span class="text-default font-weight-bold">@item.Valor.ToString("C")</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge bg-gradient-secondary">@item.Categoria.Descricao</span>
+                        </td>
+                        <td class="align-middle">
+                            @if (this.PermitirExibicao("Lancamento", "R"))
+                            {
+                                <a href="javascript:;" class="btn btn-default btn-xs mb-0 btnDetalhes" data-url="@Url.Action("Detalhes", "Lancamentos", new {id = item.Id})">
+                                    Detalhes
+                                </a>
+                            }
+                            @if (this.PermitirExibicao("Lancamento", "U"))
+                            {
+                                <a href="javascript:;" class="btn btn-default btn-xs mb-0 btnEditar" data-url="@Url.Action("Editar", "Lancamentos", new { id = item.Id })">
+                                    Editar
+                                </a>
+                            }
+                            @if (this.PermitirExibicao("Lancamento", "D"))
+                            {
+                                <a href="javascript:;" class="btn btn-default btn-xs mb-0 btnExcluir" data-url="@Url.Action("Excluir", "Lancamentos", new { id = item.Id })" data-value="@item.Id" data-description="@item.Descricao">
+                                    Excluir
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{ <p class="text-center"><span class="badge badge-pill badge-lg bg-warning mt-lg-3">Nenhum resultado encontrado</span></p>}

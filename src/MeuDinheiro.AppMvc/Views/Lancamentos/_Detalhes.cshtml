@@ -1,0 +1,61 @@
+﻿@model MeuDinheiro.AppMvc.ViewModels.LancamentoViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">@Model.Descricao</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+
+    <div class="row justify-content-md-center">
+        @Html.LabelFor(m => m.Tipo)
+        <div class="col-3">
+            <div class="form-check mb-3">
+                @Html.RadioButtonFor(m => m.Tipo, "Receita", new { @class = "form-check-input", @id = "checkboxReceita", @disabled="disabled"})
+                <label class="custom-control-label" for="checkboxReceita">Receita</label>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-check">
+                @Html.RadioButtonFor(m => m.Tipo, "Despesa", new { @class = "form-check-input", @id = "checkboxDespesa", @disabled = "disabled" })
+                <label class="custom-control-label" for="checkboxDespesa">Despesa</label>
+            </div>
+        </div>
+        @Html.ValidationMessageFor(m => m.Tipo, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Descricao)
+        <h6 class="text-primary">@Model.Descricao</h6>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Data)
+                <h6 class="text-primary">@Model.Data.ToString("dd/MM/yyyy")</h6>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Valor)
+                <h6 class="text-primary">@Model.Valor.ToString("C")</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.CategoriaId)
+        <h6 class="text-primary">@Model.Categoria.Descricao</h6>
+    </div>
+
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+</div>
+

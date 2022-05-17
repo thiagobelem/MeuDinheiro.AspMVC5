@@ -1,0 +1,47 @@
+﻿@using MeuDinheiro.AppMvc.Extensions
+@using MeuDinheiro.AppMvc.ViewModels
+@model IEnumerable<CategoriaViewModel>
+
+@if (Model.Count() > 0)
+{
+    <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0 table-hover">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Descrição</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Ativo?</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="text-default font-weight-bold">@item.Descricao</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge badge-sm bg-gradient-@(item.Ativo == true? "success":"danger")">@(item.Ativo == true? "Sim":"Não")</span>
+                        </td>
+                        <td class="align-middle">
+                            @if (this.PermitirExibicao("Categoria", "U"))
+                            {
+                                <a href="javascript:;" class="btn btn-default btn-xs mb-0 btnEditar" data-url="@Url.Action("Editar", "Categorias", new { id = item.Id })">
+                                    Editar
+                                </a>
+                            }
+                            @if (this.PermitirExibicao("Categoria", "D"))
+                            {
+                                <a href="javascript:;" class="btn btn-default btn-xs mb-0 btnExcluir" data-url="@Url.Action("Excluir", "Categorias", new { id = item.Id })" data-value="@item.Id" data-description="@item.Descricao">
+                                    Desativar
+                                </a>
+                            }
+                         </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{ <p class="text-center"><span class="badge badge-pill badge-lg bg-warning mt-lg-3">Nenhum resultado encontrado</span></p>}

@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+@model MeuDinheiro.AppMvc.ViewModels.DashboardViewModel
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header pb-0">
+                <h5 class="text-secondary">Receita por mês</h5>
+            </div>
+            <div class="card-body">
+                <div class="graficoDiv" data-url="@Url.Action("GraficoReceitaPorMes", "Dashboard")">
+                    <div class="text-center">
+                        <div class="spinner-border spinner-border-lg text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header pb-0">
+                <h5 class="text-secondary">Despesa por mês</h5>
+            </div>
+            <div class="card-body">
+                <div class="graficoDiv" data-url="@Url.Action("GraficoDespesaPorMes", "Dashboard")">
+                    <div class="text-center">
+                        <div class="spinner-border spinner-border-lg text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header pb-0">
+                <h5 class="text-secondary">Receita por Categoria</h5>
+            </div>
+            <div class="card-body">
+                <div class="graficoDiv" data-url="@Url.Action("GraficoReceitaPorCategoria", "Dashboard")">
+                    <div class="text-center">
+                        <div class="spinner-border spinner-border-lg text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="card mb-4">
+            <div class="card-header pb-0">
+                <h5 class="text-secondary">Despesa por Categoria</h5>
+            </div>
+            <div class="card-body">
+                <div class="graficoDiv" data-url="@Url.Action("GraficoDespesaPorCategoria", "Dashboard")">
+                    <div class="text-center">
+                        <div class="spinner-border spinner-border-lg text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+@Scripts.Render("~/Content/scripts/chart")
+<script type="text/javascript">
+
+        $(document).ready(function (e) {
+            $(".graficoDiv").each(function (index, item) {
+                var url = $(item).data("url");
+                if (url && url.length > 0) {
+                    $(item).load(url);
+                }
+            });
+        });
+
+</script>
+}
