@@ -24,53 +24,32 @@ namespace MeuDinheiro.AppMvc.Controllers
 
         public async Task<ActionResult> GraficoReceitaPorMes()
         {
-            DashboardViewModel model = new DashboardViewModel();
-
             var receitaMes = FormataDicionario(await _lancamentoRepository.ObterReceitaPorMes(DateTime.Now.AddMonths(-9)));
 
-            model.Label = string.Join(",", receitaMes.Keys);
-            model.Data = string.Join(",", receitaMes.Values);
-
-            return PartialView("_Grafico_ReceitaMes", model);
+            return PartialView("_Grafico_ReceitaMes", FormataSaida(receitaMes));
         }
 
         public async Task<ActionResult> GraficoDespesaPorMes()
         {
-            DashboardViewModel model = new DashboardViewModel();
-
             var despesaMes = FormataDicionario(await _lancamentoRepository.ObterDespesaPorMes(DateTime.Now.AddMonths(-9)));
 
-            model.Label = string.Join(",", despesaMes.Keys);
-            model.Data = string.Join(",", despesaMes.Values);
-
-            return PartialView("_Grafico_DespesaMes", model);
+            return PartialView("_Grafico_DespesaMes", FormataSaida(despesaMes));
         }
 
         public async Task<ActionResult> GraficoReceitaPorCategoria()
         {
-            DashboardViewModel model = new DashboardViewModel();
-
             var receitasCategoria = FormataDicionario(await _lancamentoRepository.ObterReceitaPorCategoria(DateTime.Now.AddMonths(-9)));
 
-            model.Label = string.Join(",", receitasCategoria.Keys);
-            model.Data = string.Join(",", receitasCategoria.Values);
-
-            return PartialView("_Grafico_ReceitaCategoria", model);
+            return PartialView("_Grafico_ReceitaCategoria", FormataSaida(receitasCategoria));
         }
 
 
         public async Task<ActionResult> GraficoDespesaPorCategoria()
         {
-            DashboardViewModel model = new DashboardViewModel();
             var despesasCategoria = FormataDicionario(await _lancamentoRepository.ObterDespesaPorCategoria(DateTime.Now.AddMonths(-9)));
 
-            model.Label = string.Join(",", despesasCategoria.Keys);
-            model.Data = string.Join(",", despesasCategoria.Values);
-
-            return PartialView("_Grafico_DespesaCategoria", model);
+            return PartialView("_Grafico_DespesaCategoria", FormataSaida(despesasCategoria));
         }
-
-
 
 
         private Dictionary<string, string> FormataDicionario(Dictionary<int, decimal> valores)
@@ -113,5 +92,16 @@ namespace MeuDinheiro.AppMvc.Controllers
 
             return ret;
         }
+
+        private DashboardViewModel FormataSaida(Dictionary<string,string> keyValues)
+        {
+            DashboardViewModel model = new DashboardViewModel();
+
+            model.Label = string.Join(",", keyValues.Keys);
+            model.Data = string.Join(",", keyValues.Values);
+
+            return model;
+        }
+
     }
 }
